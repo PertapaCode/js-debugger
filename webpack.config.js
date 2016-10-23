@@ -5,13 +5,13 @@ var webpack = require('webpack');
 module.exports = {
   context: __dirname + '/src',
 
-  entry: 'debug.js',
+  entry: 'debugger.js',
 
   output: {
     path: 'dist/',
-    filename: 'debug.js',
+    filename: 'js-debugger.js',
     libraryTarget: 'umd',
-    library: 'debug',
+    library: 'js-debugger',
     umdNamedDefine: true
   },
 
