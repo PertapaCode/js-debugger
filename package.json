@@ -1,0 +1,22 @@
+{
+  "name": "js-debugger",
+  "version": "1.0.0",
+  "description": "Debug your JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PertapaCode/js-debugger.git"
+  },
+  "keywords": [
+    "debbug"
+  ],
+  "author": "Bruno Santos <brunoleugimm@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PertapaCode/js-debugger/issues"
+  },
+  "homepage": "https://github.com/PertapaCode/js-debugger#readme"
+}
