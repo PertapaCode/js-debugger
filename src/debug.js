@@ -21,7 +21,7 @@ Logger.useDefaults();
 //define global __debug
 window.__debug = function(what) {
 
-  what = what || 'minimal';
+  what = what || 'js-debugger';
 
   var logger = Logger.get(what);
 
