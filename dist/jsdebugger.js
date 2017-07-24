@@ -2,11 +2,11 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define("js-debugger", [], factory);
+		define("jsdebugger", [], factory);
 	else if(typeof exports === 'object')
-		exports["js-debugger"] = factory();
+		exports["jsdebugger"] = factory();
 	else
-		root["js-debugger"] = factory();
+		root["jsdebugger"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -56,74 +56,117 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	/* jscs:disable jsDoc */
-	var Logger = __webpack_require__(1);
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
-	//handle browser without console
-	var console = console || {
-	  log: function log() {}
-	};
+	exports.default = function (options) {
+	  // console.log('options', options);
 
-	//define global _log
-	window._log = {
-	  debug: window.console.info.bind(window.console, '%s'),
-	  info: window.console.info.bind(window.console, '%s'),
-	  warn: window.console.warn.bind(window.console, '%s'),
-	  error: window.console.error.bind(window.console, '%s'),
-	  fatal: window.console.error.bind(window.console, '%s')
-	};
+	  if (_instance) {
+	    return _instance;
+	  }
 
-	//use default settings for logger
-	Logger.useDefaults();
+	  Object.assign(_options, options);
 
-	//define global __debug
-	window.__debug = function (what) {
-
-	  what = what || 'js-debugger';
-
-	  var logger = Logger.get(what);
-
-	  logger.setLevel(Logger.WARN);
-
-	  logger.warn = window.console.warn.bind(window.console, '[' + what + '] %s');
-	  logger.error = window.console.error.bind(window.console, '[' + what + '] %s');
-	  logger.fatal = window.console.error.bind(window.console, '[' + what + '] %s');
-
-	  logger.defineLevel = function (level) {
-	    if (level && Logger[level.toUpperCase()]) {
-	      Logger.get(what).setLevel(Logger[level.toUpperCase()]);
-	    }
-
-	    return logger;
-	  };
-
-	  return logger;
-	};
-
-	//bind _log with console
-	function setDebug(isDebug, what) {
-	  if (isDebug) {
-	    what = {
+	  // define global console
+	  if (_options.disabled !== true && _options.globalConsole) {
+	    window[_options.globalConsole] = {
 	      debug: window.console.info.bind(window.console, '%s'),
+	      verbose: window.console.info.bind(window.console, '%s'),
 	      info: window.console.info.bind(window.console, '%s'),
 	      warn: window.console.warn.bind(window.console, '%s'),
 	      error: window.console.error.bind(window.console, '%s'),
 	      fatal: window.console.error.bind(window.console, '%s')
 	    };
-	  } else {
-	    var __no_op = function __no_op() {};
-
-	    what = {
-	      debug: __no_op,
-	      info: __no_op,
-	      warn: __no_op,
-	      error: __no_op,
-	      fatal: __no_op
+	  } else if (_options.disabled === true && _options.globalConsole) {
+	    window[_options.globalConsole] = {
+	      debug: function debug() {},
+	      verbose: function verbose() {},
+	      info: function info() {},
+	      warn: function warn() {},
+	      error: function error() {},
+	      fatal: function fatal() {}
 	    };
 	  }
-	}
 
-	setDebug(true, window._log);
+	  // use default settings for logger
+	  Logger.useDefaults();
+
+	  /**
+	   * _debug
+	   * @param  {string} what
+	   * @return {Object}
+	   */
+	  var _debug = function _debug(what) {
+	    what = what || 'jsdebugger';
+
+	    var logger = Logger.get(what);
+
+	    logger.setLevel(Logger[_options.level.toUpperCase()]);
+
+	    logger.verbose = logger.debug.bind(logger);
+	    logger.warn = window.console.warn.bind(window.console, '[' + what + '] %s');
+	    logger.error = window.console.error.bind(window.console, '[' + what + '] %s');
+	    logger.fatal = window.console.error.bind(window.console, '[' + what + '] %s');
+
+	    logger.defineLevel = function (level) {
+	      if (level && Logger[level.toUpperCase()]) {
+	        Logger.get(what).setLevel(Logger[level.toUpperCase()]);
+	      }
+
+	      return logger;
+	    };
+
+	    return logger;
+	  };
+
+	  if (_options.disabled === true) {
+	    _debug = function _debug() {
+	      var _nop = {
+	        debug: function debug() {},
+	        verbose: function verbose() {},
+	        info: function info() {},
+	        warn: function warn() {},
+	        error: function error() {},
+	        fatal: function fatal() {}
+	      };
+
+	      _nop.defineLevel = function () {
+	        return _nop;
+	      };
+
+	      return _nop;
+	    };
+	  }
+
+	  // define global debug
+	  if (_options.globalDebug) {
+	    window[_options.globalDebug] = _debug;
+	  }
+
+	  // handle browsers without console
+	  if (!console || !console.log) {
+	    var _console = _console || {
+	      log: function log() {}
+	    };
+	  }
+
+	  _instance = _debug;
+
+	  return _debug;
+	};
+
+	var Logger = __webpack_require__(1);
+
+	var _instance = void 0;
+
+	var _options = {
+	  disabled: false,
+	  globalDebug: undefined,
+	  globalConsole: undefined,
+	  level: 'warn'
+	};
 
 /***/ },
 /* 1 */
@@ -141,7 +184,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		var Logger = { };
 
 		// For those that are at home that are keeping score.
-		Logger.VERSION = "1.2.0";
+		Logger.VERSION = "1.3.0";
 
 		// Function which handles all incoming log messages.
 		var logHandler;
@@ -290,9 +333,10 @@ return /******/ (function(modules) { // webpackBootstrap
 				(contextualLoggersByNameMap[name] = new ContextualLogger(merge({ name: name }, globalLogger.context)));
 		};
 
-		// Configure and example a Default implementation which writes to the `window.console` (if present).  The
-		// `options` hash can be used to configure the default logLevel and provide a custom message formatter.
-		Logger.useDefaults = function(options) {
+		// CreateDefaultHandler returns a handler function which can be passed to `Logger.setHandler()` which will
+		// write to the window's console object (if present); the optional options object can be used to customise the
+		// formatter used to format each log message.
+		Logger.createDefaultHandler = function (options) {
 			options = options || {};
 
 			options.formatter = options.formatter || function defaultMessageFormatter(messages, context) {
@@ -301,11 +345,6 @@ return /******/ (function(modules) { // webpackBootstrap
 					messages.unshift("[" + context.name + "]");
 				}
 			};
-
-			// Check for the presence of a logger.
-			if (typeof console === "undefined") {
-				return;
-			}
 
 			// Map of timestamps by timer labels used to track `#time` and `#timeEnd()` invocations in environments
 			// that don't offer a native console method.
@@ -316,8 +355,12 @@ return /******/ (function(modules) { // webpackBootstrap
 				Function.prototype.apply.call(hdlr, console, messages);
 			};
 
-			Logger.setLevel(options.defaultLevel || Logger.DEBUG);
-			Logger.setHandler(function(messages, context) {
+			// Check for the presence of a logger.
+			if (typeof console === "undefined") {
+				return function () { /* no console */ };
+			}
+
+			return function(messages, context) {
 				// Convert arguments object to Array.
 				messages = Array.prototype.slice.call(messages);
 
@@ -358,7 +401,14 @@ return /******/ (function(modules) { // webpackBootstrap
 					options.formatter(messages, context);
 					invokeConsoleMethod(hdlr, messages);
 				}
-			});
+			};
+		};
+
+		// Configure and example a Default implementation which writes to the `window.console` (if present).  The
+		// `options` hash can be used to configure the default logLevel and provide a custom message formatter.
+		Logger.useDefaults = function(options) {
+			Logger.setLevel(options && options.defaultLevel || Logger.DEBUG);
+			Logger.setHandler(Logger.createDefaultHandler(options));
 		};
 
 		// Export to popular environments boilerplate.

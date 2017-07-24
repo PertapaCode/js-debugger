@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>js-debugger</title>
+  <meta name="description" content="js-debugger">
+</head>
+
+<body>
+  <h3>Open the console...</h3>
+  <button type="button" onclick="window.location.search = '&param=level'">Test level</button>
+  <button type="button" onclick="window.location.search = '&param=disabled';">Test disabled</button>
+  <button type="button" onclick="window.location.search = '&param=global';">Test global</button>
+</body>
+<script src="../dist/jsdebugger.js"></script>
+<script>
+(function () {
+  // get test
+  let _test = 'level'
+  if (window.location.search) {
+    let s = window.location.search
+    _test = s.substring(s.lastIndexOf('=') + 1)
+  }
+
+  const test = {
+    /**
+     * test option level
+     */
+    level: function () {
+      const debug = window.jsdebugger.default({
+        level: 'debug'
+      })
+
+      const _log = debug('module').defineLevel()
+
+      console.log('console')
+      _log.info('info')
+      _log.debug('debug')
+      _log.verbose('verbose')
+      _log.warn('warn')
+      _log.error('error')
+      _log.fatal('fatal')
+    },
+
+    /**
+     * test option disabled
+     */
+    disabled: function () {
+      const debug = window.jsdebugger.default({
+        disabled: true
+      })
+
+      const _log = debug('module').defineLevel()
+
+      console.log('console')
+      _log.info('info')
+      _log.debug('debug')
+      _log.verbose('verbose')
+      _log.warn('warn')
+      _log.error('error')
+      _log.fatal('fatal')
+    },
+
+    /**
+     * test option global
+     */
+    global: function () {
+      window.jsdebugger.default({
+        globalDebug: 'debug',
+        globalConsole: '_log'
+      })
+
+      window._log.info('before define')
+
+      const _log = window.debug('module').defineLevel()
+
+      console.log('console')
+      _log.info('info')
+      _log.debug('debug')
+      _log.verbose('verbose')
+      _log.warn('warn')
+      _log.error('error')
+      _log.fatal('fatal')
+    }
+  }
+
+  test[_test] ? test[_test]() : console.log('invalid param')
+})()
+</script>
+
+</html>

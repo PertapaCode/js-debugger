@@ -1,47 +1,37 @@
-'use strict';
+'use strict'
 
-var webpack = require('webpack');
+var path = require('path')
 
 module.exports = {
-  context: __dirname + '/src',
+  context: path.join(__dirname, '/src'),
 
-  entry: 'debugger.js',
+  entry: 'client.js',
 
   output: {
     path: 'dist/',
-    filename: 'js-debugger.js',
+    filename: 'jsdebugger.js',
     libraryTarget: 'umd',
-    library: 'js-debugger',
+    library: 'jsdebugger',
     umdNamedDefine: true
   },
-
-  plugins: [
-    //new webpack.optimize.UglifyJsPlugin(),
-    //new webpack.HotModuleReplacementPlugin(),
-    //new webpack.optimize.CommonsChunkPlugin('index', 'index.js', null, 2),
-    //new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
-  ],
 
   module: {
     loaders: [{
       test: /\.js$/,
       loader: 'babel-loader',
-      exclude: __dirname + '/node_modules',
-      include: __dirname + '/src',
+      exclude: path.join(__dirname, '/node_modules'),
+      include: path.join(__dirname, '/src'),
       query: {
         presets: ['es2015']
       }
     }]
   },
 
-  //debug: true,
-  //devtool: 'eval',
-
   resolve: {
     modulesDirectories: ['node_modules', 'src'],
     alias: {
-      vendor: __dirname + '/vendor'
+      node_modules: path.join(__dirname, '/node_modules')
     }
   }
 
-};
+}
