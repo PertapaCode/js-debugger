@@ -2,11 +2,11 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define("jsdebugger", [], factory);
+		define("js-debugger", [], factory);
 	else if(typeof exports === 'object')
-		exports["jsdebugger"] = factory();
+		exports["js-debugger"] = factory();
 	else
-		root["jsdebugger"] = factory();
+		root["js-debugger"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -56,117 +56,71 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
+	/* jscs:disable jsDoc */
+	var Logger = __webpack_require__(1);
 
-	exports.default = function (options) {
-	  // console.log('options', options);
+	// handle browser without console
+	var console = console || {
+	  log: function log() {}
 
-	  if (_instance) {
-	    return _instance;
-	  }
+	  // define global _log
+	};window._log = {
+	  debug: window.console.info.bind(window.console, '%s'),
+	  info: window.console.info.bind(window.console, '%s'),
+	  warn: window.console.warn.bind(window.console, '%s'),
+	  error: window.console.error.bind(window.console, '%s'),
+	  fatal: window.console.error.bind(window.console, '%s')
 
-	  Object.assign(_options, options);
+	  // use default settings for logger
+	};Logger.useDefaults();
 
-	  // define global console
-	  if (_options.disabled !== true && _options.globalConsole) {
-	    window[_options.globalConsole] = {
+	// define global __debug
+	window.__debug = function (what) {
+	  what = what || 'js-debugger';
+
+	  var logger = Logger.get(what);
+
+	  logger.setLevel(Logger.WARN);
+
+	  logger.warn = window.console.warn.bind(window.console, '[' + what + '] %s');
+	  logger.error = window.console.error.bind(window.console, '[' + what + '] %s');
+	  logger.fatal = window.console.error.bind(window.console, '[' + what + '] %s');
+
+	  logger.defineLevel = function (level) {
+	    if (level && Logger[level.toUpperCase()]) {
+	      Logger.get(what).setLevel(Logger[level.toUpperCase()]);
+	    }
+
+	    return logger;
+	  };
+
+	  return logger;
+	};
+
+	// bind _log with console
+	function setDebug(isDebug, what) {
+	  if (isDebug) {
+	    what = {
 	      debug: window.console.info.bind(window.console, '%s'),
-	      verbose: window.console.info.bind(window.console, '%s'),
 	      info: window.console.info.bind(window.console, '%s'),
 	      warn: window.console.warn.bind(window.console, '%s'),
 	      error: window.console.error.bind(window.console, '%s'),
 	      fatal: window.console.error.bind(window.console, '%s')
 	    };
-	  } else if (_options.disabled === true && _options.globalConsole) {
-	    window[_options.globalConsole] = {
-	      debug: function debug() {},
-	      verbose: function verbose() {},
-	      info: function info() {},
-	      warn: function warn() {},
-	      error: function error() {},
-	      fatal: function fatal() {}
+	  } else {
+	    var __no_op = function __no_op() {};
+
+	    what = {
+	      debug: __no_op,
+	      info: __no_op,
+	      warn: __no_op,
+	      error: __no_op,
+	      fatal: __no_op
 	    };
 	  }
+	}
 
-	  // use default settings for logger
-	  Logger.useDefaults();
-
-	  /**
-	   * _debug
-	   * @param  {string} what
-	   * @return {Object}
-	   */
-	  var _debug = function _debug(what) {
-	    what = what || 'jsdebugger';
-
-	    var logger = Logger.get(what);
-
-	    logger.setLevel(Logger[_options.level.toUpperCase()]);
-
-	    logger.verbose = logger.debug.bind(logger);
-	    logger.warn = window.console.warn.bind(window.console, '[' + what + '] %s');
-	    logger.error = window.console.error.bind(window.console, '[' + what + '] %s');
-	    logger.fatal = window.console.error.bind(window.console, '[' + what + '] %s');
-
-	    logger.defineLevel = function (level) {
-	      if (level && Logger[level.toUpperCase()]) {
-	        Logger.get(what).setLevel(Logger[level.toUpperCase()]);
-	      }
-
-	      return logger;
-	    };
-
-	    return logger;
-	  };
-
-	  if (_options.disabled === true) {
-	    _debug = function _debug() {
-	      var _nop = {
-	        debug: function debug() {},
-	        verbose: function verbose() {},
-	        info: function info() {},
-	        warn: function warn() {},
-	        error: function error() {},
-	        fatal: function fatal() {}
-	      };
-
-	      _nop.defineLevel = function () {
-	        return _nop;
-	      };
-
-	      return _nop;
-	    };
-	  }
-
-	  // define global debug
-	  if (_options.globalDebug) {
-	    window[_options.globalDebug] = _debug;
-	  }
-
-	  // handle browsers without console
-	  if (!console || !console.log) {
-	    var _console = _console || {
-	      log: function log() {}
-	    };
-	  }
-
-	  _instance = _debug;
-
-	  return _debug;
-	};
-
-	var Logger = __webpack_require__(1);
-
-	var _instance = void 0;
-
-	var _options = {
-	  disabled: false,
-	  globalDebug: undefined,
-	  globalConsole: undefined,
-	  level: 'warn'
-	};
+	setDebug(true, window._log);
 
 /***/ },
 /* 1 */

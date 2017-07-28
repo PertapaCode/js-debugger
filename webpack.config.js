@@ -9,9 +9,9 @@ module.exports = {
 
   output: {
     path: 'dist/',
-    filename: 'jsdebugger.js',
+    filename: 'js-debugger.js',
     libraryTarget: 'umd',
-    library: 'jsdebugger',
+    library: 'js-debugger',
     umdNamedDefine: true
   },
 
