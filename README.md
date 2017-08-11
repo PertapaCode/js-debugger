@@ -8,13 +8,13 @@
 
 Wraps **js-logger** and **log4js-node** with a unique API and some default values.
 
-##Install
+## Install
 
 ```bash
 npm install jsdebugger --save
 ```
 
-##How it works
+## How it works
 
 ### browser
 
