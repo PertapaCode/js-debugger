@@ -11,7 +11,7 @@ Wraps **js-logger** and **log4js-node** with a unique API and some default value
 ## Install
 
 ```bash
-npm install jsdebugger --save
+npm install js-debugger
 ```
 
 ## How it works
