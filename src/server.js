@@ -10,25 +10,16 @@ const _options = {
   disabled: false,
   globalDebug: undefined,
   globalConsole: undefined,
+  levelMethod: 'level',
   level: 'info',
   line: false,
   morgan: {
     format: 'dev',
     opts: {}
   },
-  notify: {
-    smtp: {
-      host: '',
-      port: 587,
-      auth: {
-        user: '',
-        pass: ''
-      }
-    },
-    email: {
-      from: '',
-      subject: '',
-      to: ''
+  appenders: {
+    console: {
+      type: 'console'
     }
   }
 }
@@ -68,21 +59,30 @@ module.exports = function (options) {
     log4jsextend(log4js, _options.line)
   }
 
-  /**
-   * does something
-   */
-  log4js.getLogger('jsdebugger').setLevel(_options.level)
+  log4js.getLogger('jsdebugger').level = _options.level
 
-  let transports = [{
-    type: 'console'
-  }]
+  // define default categories based on appenders
+  let categories = {
+    default: {
+      appenders: [],
+      level: 'error'
+    }
+  }
+  for (let appender in _options.appenders) {
+    categories.default.appenders.push(appender)
+  }
 
+  // initialize log4js
   log4js.configure({
-    replaceConsole: true,
-    appenders: transports
+    levels: {
+      VERBOSE: {
+        value: 15000,
+        colour: 'cyan'
+      }
+    },
+    appenders: _options.appenders,
+    categories: categories
   })
-
-  log4js.levels.forName('VERBOSE', log4js.levels.DEBUG.level + 1)
 
   /**
    * handle global
@@ -94,23 +94,24 @@ module.exports = function (options) {
 
     let logger = {}
     let l = log4js.getLogger(what)
-    l.setLevel(_options.level)
+    l.level = _options.level
 
-    logger.info = l.info.bind(l)
+    logger.trace = l.trace.bind(l)
     logger.debug = l.debug.bind(l)
     logger.verbose = l.verbose.bind(l)
+    logger.info = l.info.bind(l)
     logger.warn = l.warn.bind(l)
     logger.error = l.error.bind(l)
     logger.fatal = l.fatal.bind(l)
-    logger.trace = l.trace.bind(l)
+    logger.mark = l.mark.bind(l)
 
     /**
      * define level
      * @param  {string} level
      * @return {void}
      */
-    logger.level = function (level) {
-      l.setLevel(level)
+    logger[_options.levelMethod] = function (level) {
+      l.level = level
       return logger
     }
 

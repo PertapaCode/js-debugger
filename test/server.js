@@ -11,20 +11,21 @@ const _config = {
   globalDebug: 'debug',
   globalConsole: undefined,
   level: 'trace',
-  line: false
+  line: true
 }
 
 jsdebugger(_config)
 
 const _log = debug('module')
 
-_log.info('info')
+_log.trace('trace')
 _log.debug('debug')
 _log.verbose('verbose')
+_log.info('info')
 _log.warn('warn')
 _log.error('error')
 _log.fatal('fatal')
-_log.trace('trace')
+_log.mark('mark')
 
 app.get('/', function (req, res) {
   res.send('hello, world!')
