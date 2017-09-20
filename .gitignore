@@ -78,3 +78,7 @@ test/tmp
 ######################
 docs
 reports
+
+# Distribution files #
+######################
+dist
