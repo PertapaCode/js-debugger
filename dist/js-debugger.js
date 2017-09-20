@@ -138,7 +138,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		var Logger = { };
 
 		// For those that are at home that are keeping score.
-		Logger.VERSION = "1.3.0";
+		Logger.VERSION = "1.4.1";
 
 		// Function which handles all incoming log messages.
 		var logHandler;
@@ -194,6 +194,11 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (newLevel && "value" in newLevel) {
 					this.context.filterLevel = newLevel;
 				}
+			},
+			
+			// Gets the current logging level for the logging instance
+			getLevel: function () {
+				return this.context.filterLevel;
 			},
 
 			// Is the logger configured to output messages at the supplied level?
@@ -279,6 +284,11 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		};
 
+		// Gets the global logging filter level
+		Logger.getLevel = function() {
+			return globalLogger.getLevel();
+		};
+
 		// Retrieve a ContextualLogger instance.  Note that named loggers automatically inherit the global logger's level,
 		// default context and log handler.
 		Logger.get = function (name) {
@@ -350,6 +360,8 @@ return /******/ (function(modules) { // webpackBootstrap
 						hdlr = console.error;
 					} else if (context.level === Logger.INFO && console.info) {
 						hdlr = console.info;
+					} else if (context.level === Logger.DEBUG && console.debug) {
+						hdlr = console.debug;
 					}
 
 					options.formatter(messages, context);
