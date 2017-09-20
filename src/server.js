@@ -65,11 +65,13 @@ module.exports = function (options) {
   let categories = {
     default: {
       appenders: [],
-      level: 'error'
+      level: 'ALL'
     }
   }
   for (let appender in _options.appenders) {
-    categories.default.appenders.push(appender)
+    if (_options.appenders[appender].type !== 'smtp') {
+      categories.default.appenders.push(appender)
+    }
   }
 
   // initialize log4js
