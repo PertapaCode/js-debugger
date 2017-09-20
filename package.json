@@ -4,6 +4,7 @@
   "description": "Debug your JS",
   "main": "src/server.js",
   "scripts": {
+    "test": "node test/server.js",
     "release:patch": "npm version patch -m 'Bump version to %s'",
     "release:minor": "VERSION=$(npm version minor -m 'Bump version to %s') && VERSION=$(echo $VERSION | cut -c 2- | rev | cut -c 3- | rev) && git checkout -b release-$VERSION",
     "release:major": "VERSION=$(npm version major -m 'Bump version to %s') && VERSION=$(echo $VERSION | cut -c 2- | rev | cut -c 3- | rev) && git checkout -b release-$VERSION",
