@@ -15,6 +15,9 @@
     "node",
     "js"
   ],
+  "files": [
+    "dist"
+  ],
   "author": "Bruno Santos <brunoleugimm@gmail.com>",
   "license": "MIT",
   "bugs": {
