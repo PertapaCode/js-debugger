@@ -8,6 +8,7 @@ let _instance
 
 const _options = {
   disabled: false,
+  app: undefined,
   globalDebug: undefined,
   globalConsole: undefined,
   levelMethod: 'level',
@@ -85,6 +86,13 @@ module.exports = function (options) {
     appenders: _options.appenders,
     categories: categories
   })
+
+  if (_options.app) {
+    _options.app.get('/debugger/:logger/:level', function (req, res) {
+      log4js.getLogger(req.params.logger).level = req.params.level
+      res.status(200).send()
+    })
+  }
 
   /**
    * handle global

@@ -8,6 +8,7 @@ const app = express()
 
 const _config = {
   disabled: false,
+  app: app,
   globalDebug: 'debug',
   globalConsole: undefined,
   level: 'trace',
