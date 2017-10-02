@@ -79,7 +79,7 @@ module.exports = function (options) {
   log4js.configure({
     levels: {
       VERBOSE: {
-        value: 15000,
+        value: 7500,
         colour: 'cyan'
       }
     },
