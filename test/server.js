@@ -45,3 +45,5 @@ app.delete('/', function (req, res) {
 })
 
 app.listen(5000)
+
+setTimeout(() => process.exit(), 5000)
