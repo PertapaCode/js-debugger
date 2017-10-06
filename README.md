@@ -2,6 +2,8 @@
 
 > A suite of tools to debug your JavaScript in the browser and in Node.
 
+[![Build Status](https://travis-ci.org/PertapaCode/js-debugger.svg?branch=develop)](https://travis-ci.org/PertapaCode/js-debugger)
+
 ## Overview
 
 **JSdebugger** uses [morgan](https://github.com/expressjs/morgan) to log HTTP requests, [log4js-node](https://github.com/nomiddlename/log4js-node) for node and [js-logger](https://github.com/jonnyreeves/js-logger) for the browser.
