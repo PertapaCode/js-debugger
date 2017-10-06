@@ -4,7 +4,7 @@
 
 [![NPM](https://nodei.co/npm/js-debugger.png)](https://nodei.co/npm/js-debugger/)
 [![Build Status](https://travis-ci.org/PertapaCode/js-debugger.svg?branch=develop)](https://travis-ci.org/PertapaCode/js-debugger)
-![](https://github.com/PertapaCode/js-debugger/develop/src/client.js)
+![](http://img.badgesize.io/PertapaCode/js-debugger/develop/src/client.js.svg?label=client_size)
 
 ## Overview
 
