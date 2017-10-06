@@ -2,8 +2,8 @@
 
 > A suite of tools to debug your JavaScript in the browser and in Node.
 
-[![Build Status](https://travis-ci.org/PertapaCode/js-debugger.svg?branch=develop)](https://travis-ci.org/PertapaCode/js-debugger)
 [![NPM](https://nodei.co/npm/js-debugger.png)](https://nodei.co/npm/js-debugger/)
+[![Build Status](https://travis-ci.org/PertapaCode/js-debugger.svg?branch=develop)](https://travis-ci.org/PertapaCode/js-debugger)
 
 ## Overview
 
