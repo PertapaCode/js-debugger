@@ -14,7 +14,7 @@
   <button type="button" onclick="window.location.search = '&param=disabled';">Test disabled</button>
   <button type="button" onclick="window.location.search = '&param=global';">Test global</button>
 </body>
-<script src="../dist/jsdebugger.js"></script>
+<script src="../dist/js-debugger.js"></script>
 <script>
 (function () {
   // get test
@@ -29,7 +29,7 @@
      * test option level
      */
     level: function () {
-      const debug = window.jsdebugger.default({
+      const debug = window['js-debugger'].default({
         level: 'debug'
       })
 
@@ -48,7 +48,7 @@
      * test option disabled
      */
     disabled: function () {
-      const debug = window.jsdebugger.default({
+      const debug = window['js-debugger'].default({
         disabled: true
       })
 
@@ -67,7 +67,7 @@
      * test option global
      */
     global: function () {
-      window.jsdebugger.default({
+      window['js-debugger'].default({
         globalDebug: 'debug',
         globalConsole: '_log'
       })
