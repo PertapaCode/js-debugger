@@ -1,6 +1,6 @@
 {
   "name": "js-debugger",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Debug your JS",
   "main": "src/server.js",
   "scripts": {
