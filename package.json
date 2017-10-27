@@ -4,6 +4,8 @@
   "description": "Debug your JS",
   "main": "src/server.js",
   "scripts": {
+    "build:dev": "webpack --progress",
+    "build:prod": "rm -rf dist && webpack --progress --define prod",
     "test": "node test/server.js",
     "release:patch": "npm version patch -m 'Bump version to %s'",
     "release:minor": "VERSION=$(npm version minor -m 'Bump version to %s') && VERSION=$(echo $VERSION | cut -c 2- | rev | cut -c 3- | rev) && git checkout -b release-$VERSION",
@@ -30,19 +32,19 @@
   "homepage": "https://github.com/PertapaCode/js-debugger#readme",
   "dependencies": {
     "conventional-changelog-cli": "^1.3.3",
-    "js-logger": "^1.4.1",
     "log4js": "^2.3.3",
     "log4js-extend": "^0.2.1",
     "morgan": "^1.8.2"
   },
   "devDependencies": {
-    "babel-core": "6.17.0",
-    "babel-loader": "6.2.5",
-    "babel-plugin-transform-runtime": "6.15.0",
-    "babel-preset-es2015": "6.16.0",
-    "exports-loader": "0.6.3",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
     "express": "^4.15.2",
-    "imports-loader": "0.6.5",
-    "webpack": "1.13.2"
+    "js-logger": "^1.4.1",
+    "uglifyjs-webpack-plugin": "^1.0.1",
+    "webpack": "^3.8.1"
   }
 }
