@@ -10,6 +10,7 @@
 
 <body>
   <h3>Open the console...</h3>
+  <button type="button" onclick="window.location.search = '&param=default'">Test default options</button>
   <button type="button" onclick="window.location.search = '&param=level'">Test level</button>
   <button type="button" onclick="window.location.search = '&param=disabled';">Test disabled</button>
   <button type="button" onclick="window.location.search = '&param=global';">Test global</button>
@@ -18,7 +19,7 @@
 <script>
 (function () {
   // get test
-  let _test = 'level'
+  let _test = 'default'
   if (window.location.search) {
     let s = window.location.search
     _test = s.substring(s.lastIndexOf('=') + 1)
@@ -26,11 +27,28 @@
 
   const test = {
     /**
+     * test default options
+     */
+    default: function () {
+      const debug = window['js-debugger'].default
+
+      const _log = debug('module').defineLevel()
+
+      console.log('console')
+      _log.info('info')
+      _log.debug('debug')
+      _log.verbose('verbose')
+      _log.warn('warn')
+      _log.error('error')
+      _log.fatal('fatal')
+    },
+
+    /**
      * test option level
      */
     level: function () {
       const debug = window['js-debugger'].default({
-        level: 'debug'
+        level: 'trace'
       })
 
       const _log = debug('module').defineLevel()

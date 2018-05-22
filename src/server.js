@@ -31,6 +31,13 @@ const _options = {
 module.exports = function (options) {
   // console.log('options', options);
 
+  // if options is a string use default options and use string for logger name
+  let name
+  if (typeof options === 'string') {
+    name = options
+    options = {}
+  }
+
   if (_instance) {
     return _instance
   }
@@ -135,5 +142,10 @@ module.exports = function (options) {
     global[_options.globalDebug] = g
   }
 
-  return g
+  // if logger name exist use it to init the logger
+  if (name) {
+    return g(name)
+  } else {
+    return g
+  }
 }

@@ -14,6 +14,13 @@ const _options = {
 export default function (options) {
   // console.log('options', options);
 
+  // if options is a string use default options and use string for logger name
+  let name
+  if (typeof options === 'string') {
+    name = options
+    options = {}
+  }
+
   if (_instance) {
     return _instance
   }
@@ -103,5 +110,10 @@ export default function (options) {
 
   _instance = _debug
 
-  return _debug
+  // if logger name exist use it to init the logger
+  if (name) {
+    return _debug(name)
+  } else {
+    return _debug
+  }
 }

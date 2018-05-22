@@ -2,22 +2,21 @@
 
 'use strict'
 
-const jsdebugger = require('../src/server')
+let jsdebugger = require('../src/server')
 const express = require('express')
 const app = express()
 
-const _config = {
+// you can comment this to use the default options
+jsdebugger = jsdebugger({
   disabled: false,
   app: app,
   globalDebug: 'debug',
   globalConsole: undefined,
   level: 'trace',
   line: true
-}
+})
 
-jsdebugger(_config)
-
-const _log = debug('module')
+const _log = jsdebugger('module')
 
 _log.trace('trace')
 _log.debug('debug')
