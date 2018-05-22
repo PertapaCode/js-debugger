@@ -35,9 +35,13 @@ level | `string` | **'error'** | Default maximun level.
 
 ```js
 import jsdebugger from 'js-debugger';
-const debug = jsdebugger(options);
 
+// passing options
+const debug = jsdebugger(options);
 const _log = debug('module').level('debug');
+
+// or using the default options
+const _log = jsdebugger('module').level('debug');
 
 _log.info('info');
 _log.debug('debug');
@@ -76,7 +80,6 @@ line: {
   format: 'at @name (@file:@line:@column)'
 };
 ```
-![alt text](images/line_log.png)
 
 ##### morgan
 
@@ -110,9 +113,13 @@ morgan: {
 
 ```js
 const jsdebugger = require('js-debugger');
-const debug = jsdebugger(options);
 
+// passing options
+const debug = jsdebugger(options);
 const _log = debug('module').level('debug');
+
+// or using the default options
+const _log = jsdebugger('module').level('debug');
 
 _log.info('info');
 _log.debug('debug');
