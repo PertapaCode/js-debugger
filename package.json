@@ -1,6 +1,6 @@
 {
   "name": "js-debugger",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Debug your JS",
   "main": "src/server.js",
   "browser": "src/client.js",
