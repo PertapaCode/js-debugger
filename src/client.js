@@ -68,7 +68,7 @@ export default function (options) {
     logger.error = window.console.error.bind(window.console, '[' + what + '] %s')
     logger.fatal = window.console.error.bind(window.console, '[' + what + '] %s')
 
-    logger.defineLevel = function (level) {
+    logger.defineLevel = logger.level = function (level) {
       if (level && Logger[level.toUpperCase()]) {
         Logger.get(what).setLevel(Logger[level.toUpperCase()])
       }
@@ -90,7 +90,7 @@ export default function (options) {
         fatal: function () {}
       }
 
-      _nop.defineLevel = function () { return _nop }
+      _nop.defineLevel = _nop.level = function () { return _nop }
 
       return _nop
     }
